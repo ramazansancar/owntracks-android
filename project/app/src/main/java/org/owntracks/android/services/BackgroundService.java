@@ -676,14 +676,6 @@ public class BackgroundService extends LifecycleService implements SharedPrefere
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(Events.ModeChanged e) {
-        removeGeofences();
-        setupGeofences();
-        setupLocationRequest();
-        updateOngoingNotification();
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(MessageTransition message) {
         Timber.d("transition isIncoming:%s topic:%s", message.isIncoming(), message.getTopic());
         if (message.isIncoming())
@@ -741,18 +733,26 @@ public class BackgroundService extends LifecycleService implements SharedPrefere
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (preferences.getPreferenceKey(R.string.preferenceKeyLocatorInterval).equals(key) ||
-                preferences.getPreferenceKey(R.string.preferenceKeyLocatorDisplacement).equals(key) ||
-                preferences.getPreferenceKey(R.string.preferenceKeyLocatorPriority).equals(key) ||
-                preferences.getPreferenceKey(R.string.preferenceKeyMoveModeLocatorInterval).equals(key) ||
-                preferences.getPreferenceKey(R.string.preferenceKeyPegLocatorFastestIntervalToInterval).equals(key)
-        ) {
-            Timber.d("locator preferences changed. Resetting location request.");
-            setupLocationRequest();
-        }
-        if (Preferences.preferenceKeyMonitoring.equals(key)) {
-            setupLocationRequest();
-            updateOngoingNotification();
+        switch (key) {
+            case Preferences.preferenceKeyMonitoring:
+                setupLocationRequest();
+                updateOngoingNotification();
+                break;
+            case Preferences.preferenceKeyModeId:
+                removeGeofences();
+                setupGeofences();
+                setupLocationRequest();
+                updateOngoingNotification();
+                break;
+            case Preferences.preferenceKeyLocatorInterval:
+            case Preferences.preferenceKeyLocatorDisplacement:
+            case Preferences.preferenceKeyLocatorPriority:
+            case Preferences.preferenceKeyMoveModeLocatorInterval:
+            case Preferences.preferenceKeyPegLocatorFastestIntervalToInterval:
+                Timber.d("locator preferences changed. Resetting location request.");
+                setupLocationRequest();
+                break;
+
         }
     }
 

@@ -17,7 +17,6 @@ import org.owntracks.android.model.messages.MessageConfiguration
 import org.owntracks.android.services.MessageProcessorEndpointHttp
 import org.owntracks.android.services.MessageProcessorEndpointMqtt
 import org.owntracks.android.services.worker.Scheduler
-import org.owntracks.android.support.Events.ModeChanged
 import org.owntracks.android.support.preferences.PreferencesStore
 import org.owntracks.android.ui.AppShortcuts
 import org.owntracks.android.ui.map.MapLayerStyle
@@ -231,10 +230,6 @@ class Preferences @Inject constructor(
         Timber.v("setting mode to: %s", requestedMode)
         preferencesStore.setMode(preferenceKeyModeId, requestedMode)
         currentMode = requestedMode
-        if (!init && eventBus != null) {
-            Timber.v("broadcasting mode change event")
-            eventBus.post(ModeChanged(currentMode))
-        }
     }
 
     fun setMonitoringNext() {
@@ -1313,5 +1308,10 @@ class Preferences @Inject constructor(
         const val preferenceKeyDeviceId = "deviceId"
         const val preferenceKeyTrackerId = "tid"
         const val preferenceKeyMonitoring = "monitoring"
+        const val preferenceKeyLocatorInterval = "locatorInterval"
+        const val preferenceKeyLocatorDisplacement = "locatorDisplacement"
+        const val preferenceKeyLocatorPriority = "locatorPriority"
+        const val preferenceKeyMoveModeLocatorInterval = "moveModeLocatorInterval"
+        const val preferenceKeyPegLocatorFastestIntervalToInterval = "pegLocatorFastestIntervalToInterval"
     }
 }

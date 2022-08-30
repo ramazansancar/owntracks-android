@@ -1,14 +1,13 @@
 package org.owntracks.android.ui.preferences.connection;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.owntracks.android.support.Events;
 import org.owntracks.android.support.Preferences;
 import org.owntracks.android.ui.base.viewmodel.BaseViewModel;
 import org.owntracks.android.ui.preferences.connection.dialog.ConnectionHostHttpDialogViewModel;
@@ -25,7 +24,7 @@ import dagger.hilt.android.scopes.ActivityScoped;
 import timber.log.Timber;
 
 @ActivityScoped
-public class ConnectionViewModel extends BaseViewModel<ConnectionMvvm.View> implements ConnectionMvvm.ViewModel<ConnectionMvvm.View> {
+public class ConnectionViewModel extends BaseViewModel<ConnectionMvvm.View> implements ConnectionMvvm.ViewModel<ConnectionMvvm.View>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final Preferences preferences;
     private final Context context;
@@ -52,14 +51,6 @@ public class ConnectionViewModel extends BaseViewModel<ConnectionMvvm.View> impl
     @Override
     public int getModeId() {
         return modeId;
-    }
-
-    @Subscribe
-    public void onEvent(Events.ModeChanged e) {
-        Timber.v("mode changed %s", e.getNewModeId());
-        setModeId(e.getNewModeId());
-        getView().recreateOptionsMenu();
-        notifyChange();
     }
 
     @Override
@@ -117,4 +108,12 @@ public class ConnectionViewModel extends BaseViewModel<ConnectionMvvm.View> impl
         return new ConnectionParametersViewModel(preferences);
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Preferences.preferenceKeyModeId.equals(key)) {
+            setModeId(preferences.getMode());
+            getView().recreateOptionsMenu();
+            notifyChange();
+        }
+    }
 }

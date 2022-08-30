@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.DisplayMetrics
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import org.greenrobot.eventbus.EventBus
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,8 +17,6 @@ import org.owntracks.android.model.messages.MessageCard
 import org.owntracks.android.model.messages.MessageLocation
 import org.owntracks.android.support.ContactBitmapAndName
 import org.owntracks.android.support.ContactBitmapAndNameMemoryCache
-import org.owntracks.android.support.Events.EndpointChanged
-import org.owntracks.android.support.Events.ModeChanged
 import org.owntracks.android.support.Preferences
 
 class MemoryContactsRepoTest {

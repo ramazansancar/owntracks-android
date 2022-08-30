@@ -1,12 +1,14 @@
 package org.owntracks.android.services;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.test.espresso.idling.CountingIdlingResource;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.owntracks.android.R;
 import org.owntracks.android.data.EndpointState;
 import org.owntracks.android.data.repos.ContactsRepo;
 import org.owntracks.android.data.repos.EndpointStateRepo;
@@ -45,7 +47,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 import timber.log.Timber;
 
 @Singleton
-public class MessageProcessor {
+public class MessageProcessor implements SharedPreferences.OnSharedPreferenceChangeListener {
     private final EventBus eventBus;
     private final ContactsRepo contactsRepo;
     private final WaypointsRepo waypointsRepo;
@@ -336,11 +338,12 @@ public class MessageProcessor {
         }
     }
 
-    @SuppressWarnings("UnusedParameters")
-    @Subscribe(priority = 10, threadMode = ThreadMode.ASYNC)
-    public void onEvent(Events.ModeChanged event) {
-        acceptMessages = false;
-        loadOutgoingMessageProcessor();
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Preferences.preferenceKeyModeId.equals(key)) {
+            acceptMessages = false;
+            loadOutgoingMessageProcessor();
+        }
     }
 
     @SuppressWarnings("UnusedParameters")
