@@ -1,25 +1,24 @@
 package org.owntracks.android.data.repos
 
+import android.content.SharedPreferences
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import javax.inject.Inject
+import javax.inject.Singleton
+import org.owntracks.android.R
 import org.owntracks.android.model.FusedContact
 import org.owntracks.android.model.messages.MessageCard
 import org.owntracks.android.model.messages.MessageLocation
 import org.owntracks.android.support.ContactBitmapAndName
 import org.owntracks.android.support.ContactBitmapAndNameMemoryCache
-import org.owntracks.android.support.Events.*
+import org.owntracks.android.support.Preferences
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 class MemoryContactsRepo @Inject constructor(
-    private val eventBus: EventBus,
+    private val preferences: Preferences,
     private val contactsBitmapAndNameMemoryCache: ContactBitmapAndNameMemoryCache
-) : ContactsRepo {
+) : ContactsRepo, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val contacts = mutableMapOf<String, FusedContact>()
     override val all = MutableLiveData(contacts)
@@ -59,7 +58,6 @@ class MemoryContactsRepo @Inject constructor(
                 contact.id,
                 ContactBitmapAndName.CardBitmap(messageCard.name, null)
             )
-            eventBus.post(contact)
         } else {
             contact = FusedContact(id)
             contact.messageCard = messageCard
@@ -78,7 +76,6 @@ class MemoryContactsRepo @Inject constructor(
             // If timestamp of last location message is <= the new location message, skip update. We either received an old or already known message.
             if (fusedContact.setMessageLocation(messageLocation)) {
                 all.postValue(contacts)
-                eventBus.post(fusedContact)
             }
         } else {
             fusedContact = FusedContact(id).apply {
@@ -95,17 +92,27 @@ class MemoryContactsRepo @Inject constructor(
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    fun onEventMainThread(@Suppress("UNUSED_PARAMETER") e: ModeChanged?) {
-        clearAll()
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    fun onEventMainThread(@Suppress("UNUSED_PARAMETER") e: EndpointChanged?) {
-        clearAll()
-    }
-
     init {
-        eventBus.register(this)
+        preferences.registerOnPreferenceChangedListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            preferences.getPreferenceKey(R.string.preferenceKeyModeId),
+            preferences.getPreferenceKey(R.string.preferenceKeyURL),
+            preferences.getPreferenceKey(R.string.preferenceKeyHost),
+            preferences.getPreferenceKey(R.string.preferenceKeyPort),
+            preferences.getPreferenceKey(R.string.preferenceKeyTLS),
+            preferences.getPreferenceKey(R.string.preferenceKeyTLSCaCrt),
+            preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrt),
+            preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrtPassword),
+            preferences.getPreferenceKey(R.string.preferenceKeyUsername),
+            preferences.getPreferenceKey(R.string.preferenceKeyPassword),
+            preferences.getPreferenceKey(R.string.preferenceKeyDeviceId),
+            preferences.getPreferenceKey(R.string.preferenceKeyTrackerId),
+            -> {
+                clearAll()
+            }
+        }
     }
 }
