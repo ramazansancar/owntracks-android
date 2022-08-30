@@ -684,12 +684,6 @@ public class BackgroundService extends LifecycleService implements SharedPrefere
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(Events.MonitoringChanged e) {
-        setupLocationRequest();
-        updateOngoingNotification();
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(MessageTransition message) {
         Timber.d("transition isIncoming:%s topic:%s", message.isIncoming(), message.getTopic());
         if (message.isIncoming())
@@ -755,6 +749,10 @@ public class BackgroundService extends LifecycleService implements SharedPrefere
         ) {
             Timber.d("locator preferences changed. Resetting location request.");
             setupLocationRequest();
+        }
+        if (Preferences.preferenceKeyMonitoring.equals(key)) {
+            setupLocationRequest();
+            updateOngoingNotification();
         }
     }
 

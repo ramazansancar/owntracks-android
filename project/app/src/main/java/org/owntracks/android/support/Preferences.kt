@@ -18,7 +18,6 @@ import org.owntracks.android.services.MessageProcessorEndpointHttp
 import org.owntracks.android.services.MessageProcessorEndpointMqtt
 import org.owntracks.android.services.worker.Scheduler
 import org.owntracks.android.support.Events.ModeChanged
-import org.owntracks.android.support.Events.MonitoringChanged
 import org.owntracks.android.support.preferences.PreferencesStore
 import org.owntracks.android.ui.AppShortcuts
 import org.owntracks.android.ui.map.MapLayerStyle
@@ -270,7 +269,6 @@ class Preferences @Inject constructor(
         set(newMode) {
             if (newMode != this.monitoring) {
                 setInt(R.string.preferenceKeyMonitoring, newMode.mode)
-                eventBus?.post(MonitoringChanged())
             }
         }
 
@@ -1314,5 +1312,6 @@ class Preferences @Inject constructor(
         const val preferenceKeyPassword = "password"
         const val preferenceKeyDeviceId = "deviceId"
         const val preferenceKeyTrackerId = "tid"
+        const val preferenceKeyMonitoring = "monitoring"
     }
 }
