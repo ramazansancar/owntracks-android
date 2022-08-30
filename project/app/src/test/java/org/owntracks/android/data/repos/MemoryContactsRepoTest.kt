@@ -18,6 +18,7 @@ import org.owntracks.android.support.ContactBitmapAndName
 import org.owntracks.android.support.ContactBitmapAndNameMemoryCache
 import org.owntracks.android.support.Events.EndpointChanged
 import org.owntracks.android.support.Events.ModeChanged
+import org.owntracks.android.support.Preferences
 
 class MemoryContactsRepoTest {
 
@@ -27,13 +28,12 @@ class MemoryContactsRepoTest {
     private lateinit var mockResources: Resources
     private lateinit var mockContext: Context
     private lateinit var messageLocation: MessageLocation
-    private lateinit var eventBus: EventBus
     private lateinit var contactBitmapAndNameMemoryCache: ContactBitmapAndNameMemoryCache
+    private lateinit var preferences: Preferences
     private var contactsRepo: ContactsRepo? = null
 
     @Before
     fun setup() {
-        eventBus = mock {}
         val mockDisplayMetrics = DisplayMetrics()
         mockDisplayMetrics.densityDpi = 160
         mockResources = mock {
@@ -44,6 +44,8 @@ class MemoryContactsRepoTest {
             on { resources } doReturn mockResources
             on { packageName } doReturn javaClass.canonicalName
         }
+
+        preferences = mock {}
 
         messageLocation = MessageLocation()
         messageLocation.accuracy = 10
@@ -56,7 +58,7 @@ class MemoryContactsRepoTest {
 
         contactBitmapAndNameMemoryCache = ContactBitmapAndNameMemoryCache()
 
-        contactsRepo = MemoryContactsRepo(eventBus, contactBitmapAndNameMemoryCache)
+        contactsRepo = MemoryContactsRepo(preferences, contactBitmapAndNameMemoryCache)
     }
 
     @Test
@@ -111,16 +113,16 @@ class MemoryContactsRepoTest {
     }
 
     @Test
-    fun `given a non-empty repo, when the mode change event is called, the repo is emptied`() {
+    fun `given a non-empty repo, when the mode changes, the repo is emptied`() {
         contactsRepo!!.update(CONTACT_ID, messageLocation)
-        (contactsRepo as MemoryContactsRepo?)!!.onEventMainThread(ModeChanged(1))
+        (contactsRepo as MemoryContactsRepo).onSharedPreferenceChanged(null, "mode")
         assertTrue(contactsRepo!!.all.value!!.isEmpty())
     }
 
     @Test
-    fun `given a non-empty repo, when the endpoint change event is called, the repo is emptied`() {
+    fun `given a non-empty repo, when the endpoint host event is called, the repo is emptied`() {
         contactsRepo!!.update(CONTACT_ID, messageLocation)
-        (contactsRepo as MemoryContactsRepo?)!!.onEventMainThread(EndpointChanged())
+        (contactsRepo as MemoryContactsRepo).onSharedPreferenceChanged(null, "host")
         assertTrue(contactsRepo!!.all.value!!.isEmpty())
     }
 

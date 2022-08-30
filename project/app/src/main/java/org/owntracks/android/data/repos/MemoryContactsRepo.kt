@@ -5,7 +5,6 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.owntracks.android.R
 import org.owntracks.android.model.FusedContact
 import org.owntracks.android.model.messages.MessageCard
 import org.owntracks.android.model.messages.MessageLocation
@@ -98,18 +97,18 @@ class MemoryContactsRepo @Inject constructor(
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            preferences.getPreferenceKey(R.string.preferenceKeyModeId),
-            preferences.getPreferenceKey(R.string.preferenceKeyURL),
-            preferences.getPreferenceKey(R.string.preferenceKeyHost),
-            preferences.getPreferenceKey(R.string.preferenceKeyPort),
-            preferences.getPreferenceKey(R.string.preferenceKeyTLS),
-            preferences.getPreferenceKey(R.string.preferenceKeyTLSCaCrt),
-            preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrt),
-            preferences.getPreferenceKey(R.string.preferenceKeyTLSClientCrtPassword),
-            preferences.getPreferenceKey(R.string.preferenceKeyUsername),
-            preferences.getPreferenceKey(R.string.preferenceKeyPassword),
-            preferences.getPreferenceKey(R.string.preferenceKeyDeviceId),
-            preferences.getPreferenceKey(R.string.preferenceKeyTrackerId),
+            Preferences.preferenceKeyModeId,
+            Preferences.preferenceKeyURL,
+            Preferences.preferenceKeyHost,
+            Preferences.preferenceKeyPort,
+            Preferences.preferenceKeyTLS,
+            Preferences.preferenceKeyTLSCaCrt,
+            Preferences.preferenceKeyTLSClientCrt,
+            Preferences.preferenceKeyTLSClientCrtPassword,
+            Preferences.preferenceKeyUsername,
+            Preferences.preferenceKeyPassword,
+            Preferences.preferenceKeyDeviceId,
+            Preferences.preferenceKeyTrackerId
             -> {
                 clearAll()
             }

@@ -168,13 +168,13 @@ class Preferences @Inject constructor(
     fun importFromMessage(messageConfiguration: MessageConfiguration) {
         Timber.v("importing %s keys ", messageConfiguration.keys.size)
 
-        if (messageConfiguration.containsKey(getPreferenceKey(R.string.preferenceKeyModeId))) {
+        if (messageConfiguration.containsKey(preferenceKeyModeId)) {
             Timber.v(
                 "setting mode to %s",
-                messageConfiguration[getPreferenceKey(R.string.preferenceKeyModeId)]
+                messageConfiguration[preferenceKeyModeId]
             )
-            mode = messageConfiguration[getPreferenceKey(R.string.preferenceKeyModeId)] as Int
-            messageConfiguration.removeKey(getPreferenceKey(R.string.preferenceKeyModeId))
+            mode = messageConfiguration[preferenceKeyModeId] as Int
+            messageConfiguration.removeKey(preferenceKeyModeId)
         }
 
         // Don't show setup if a config has been imported
@@ -230,7 +230,7 @@ class Preferences @Inject constructor(
             return
         }
         Timber.v("setting mode to: %s", requestedMode)
-        preferencesStore.setMode(getPreferenceKey(R.string.preferenceKeyModeId), requestedMode)
+        preferencesStore.setMode(preferenceKeyModeId, requestedMode)
         currentMode = requestedMode
         if (!init && eventBus != null) {
             Timber.v("broadcasting mode change event")
@@ -1211,9 +1211,8 @@ class Preferences @Inject constructor(
     }
 
     init {
-        val modePreferenceKey = getPreferenceKey(R.string.preferenceKeyModeId)
         val initMode = preferencesStore.getInitMode(
-            modePreferenceKey,
+            preferenceKeyModeId,
             getIntResource(R.integer.valModeId)
         )
         if (initMode in listOf(
@@ -1223,7 +1222,7 @@ class Preferences @Inject constructor(
         ) {
             setMode(initMode, true)
         } else {
-            preferencesStore.putInt(modePreferenceKey, getIntResource(R.integer.valModeId))
+            preferencesStore.putInt(preferenceKeyModeId, getIntResource(R.integer.valModeId))
             setMode(getIntResource(R.integer.valModeId), true)
         }
 
@@ -1303,5 +1302,17 @@ class Preferences @Inject constructor(
             "userDeclinedEnableLocationPermissions"
         const val preferenceKeyUserDeclinedEnableLocationServices =
             "userDeclinedEnableLocationServices"
+        const val preferenceKeyModeId = "mode"
+        const val preferenceKeyHost = "host"
+        const val preferenceKeyPort = "port"
+        const val preferenceKeyTLS = "tls"
+        const val preferenceKeyURL = "url"
+        const val preferenceKeyTLSCaCrt = "tlsCaCrt"
+        const val preferenceKeyTLSClientCrt = "tlsClientCrt"
+        const val preferenceKeyTLSClientCrtPassword = "tlsClientCrtPassword"
+        const val preferenceKeyUsername = "username"
+        const val preferenceKeyPassword = "password"
+        const val preferenceKeyDeviceId = "deviceId"
+        const val preferenceKeyTrackerId = "tid"
     }
 }
