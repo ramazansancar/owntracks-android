@@ -64,7 +64,6 @@ public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint imple
 
     private IMqttAsyncClient mqttClient;
 
-    private String lastConnectionId;
     private static EndpointState state;
 
     private final MessageProcessor messageProcessor;
@@ -417,11 +416,6 @@ public class MessageProcessorEndpointMqtt extends MessageProcessorEndpoint imple
         scheduler.cancelMqttReconnect();
         // Check if we're connecting to the same broker that we were already connected to
         String connectionId = String.format("%s/%s", mqttClient.getServerURI(), mqttClient.getClientId());
-        if (lastConnectionId != null && !connectionId.equals(lastConnectionId)) {
-            eventBus.post(new Events.EndpointChanged());
-            lastConnectionId = connectionId;
-            Timber.v("lastConnectionId changed to: %s", lastConnectionId);
-        }
 
         if (!preferences.getSub()) // Don't subscribe if base topic is invalid
             return;

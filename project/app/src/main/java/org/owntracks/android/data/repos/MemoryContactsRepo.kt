@@ -98,17 +98,7 @@ class MemoryContactsRepo @Inject constructor(
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             Preferences.preferenceKeyModeId,
-            Preferences.preferenceKeyURL,
-            Preferences.preferenceKeyHost,
-            Preferences.preferenceKeyPort,
-            Preferences.preferenceKeyTLS,
-            Preferences.preferenceKeyTLSCaCrt,
-            Preferences.preferenceKeyTLSClientCrt,
-            Preferences.preferenceKeyTLSClientCrtPassword,
-            Preferences.preferenceKeyUsername,
-            Preferences.preferenceKeyPassword,
-            Preferences.preferenceKeyDeviceId,
-            Preferences.preferenceKeyTrackerId
+            in Preferences.endpointChangedPreferenceKeys
             -> {
                 clearAll()
             }

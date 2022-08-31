@@ -340,17 +340,11 @@ public class MessageProcessor implements SharedPreferences.OnSharedPreferenceCha
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (Preferences.preferenceKeyModeId.equals(key)) {
+        if (Preferences.preferenceKeyModeId.equals(key)
+                || Preferences.endpointChangedPreferenceKeys.contains(key)) {
             acceptMessages = false;
             loadOutgoingMessageProcessor();
         }
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    @Subscribe(priority = 10, threadMode = ThreadMode.ASYNC)
-    public void onEvent(Events.EndpointChanged event) {
-        acceptMessages = false;
-        loadOutgoingMessageProcessor();
     }
 
     void onMessageDelivered(MessageBase messageBase) {

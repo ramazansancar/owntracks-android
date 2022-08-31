@@ -1313,5 +1313,20 @@ class Preferences @Inject constructor(
         const val preferenceKeyLocatorPriority = "locatorPriority"
         const val preferenceKeyMoveModeLocatorInterval = "moveModeLocatorInterval"
         const val preferenceKeyPegLocatorFastestIntervalToInterval = "pegLocatorFastestIntervalToInterval"
+
+        @JvmField
+        var endpointChangedPreferenceKeys = setOf(
+            Preferences.preferenceKeyURL,
+            Preferences.preferenceKeyHost,
+            Preferences.preferenceKeyPort,
+            Preferences.preferenceKeyTLS,
+            Preferences.preferenceKeyTLSCaCrt,
+            Preferences.preferenceKeyTLSClientCrt,
+            Preferences.preferenceKeyTLSClientCrtPassword,
+            Preferences.preferenceKeyUsername,
+            Preferences.preferenceKeyPassword,
+            Preferences.preferenceKeyDeviceId,
+            Preferences.preferenceKeyTrackerId
+        )
     }
 }
