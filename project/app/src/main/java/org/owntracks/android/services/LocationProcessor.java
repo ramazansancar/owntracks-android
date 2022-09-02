@@ -155,8 +155,8 @@ public class LocationProcessor {
         }
     }
 
-    void publishWaypointMessage(@NonNull WaypointModel e) {
-        messageProcessor.queueMessageForSending(waypointsRepo.fromDaoObject(e));
+    public void publishWaypointMessage(@NonNull WaypointModel e) {
+        messageProcessor.queueMessageForSending(e.toMessageWaypoint());
     }
 
     private void publishTransitionMessage(@NonNull WaypointModel w, @NonNull Location triggeringLocation, int transition, String trigger) {

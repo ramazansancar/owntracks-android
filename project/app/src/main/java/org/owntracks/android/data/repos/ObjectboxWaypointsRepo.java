@@ -5,10 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.lifecycle.LiveData;
+
 import org.greenrobot.eventbus.EventBus;
 import org.owntracks.android.data.MyObjectBox;
 import org.owntracks.android.data.WaypointModel;
 import org.owntracks.android.data.WaypointModel_;
+import org.owntracks.android.services.LocationProcessor;
+import org.owntracks.android.services.MessageProcessor;
 import org.owntracks.android.support.Preferences;
 
 import java.util.Arrays;
@@ -111,8 +115,8 @@ public class ObjectboxWaypointsRepo extends WaypointsRepo {
     }
 
     @Override
-    public ObjectBoxLiveData<WaypointModel> getAllLive() {
-        return new ObjectBoxLiveData<>(getAllQuery());
+    public LiveData<List<WaypointModel>> getAllLive() {
+        return new ObjectBoxLiveData<WaypointModel>(getAllQuery());
     }
 
     @Override

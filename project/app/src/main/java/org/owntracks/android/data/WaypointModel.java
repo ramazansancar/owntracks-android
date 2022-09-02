@@ -12,6 +12,7 @@ import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.Unique;
 import org.owntracks.android.BR;
+import org.owntracks.android.model.messages.MessageWaypoint;
 
 @Entity
 public class WaypointModel extends BaseObservable {
@@ -42,6 +43,17 @@ public class WaypointModel extends BaseObservable {
         this.geofenceRadius = geofenceRadius;
         this.lastTransition = lastTransition;
         this.lastTriggered = lastTriggered;
+    }
+
+    public WaypointModel(@NonNull MessageWaypoint messageWaypoint) {
+        id=0;
+        tst = messageWaypoint.getTimestamp();
+        description = messageWaypoint.getDescription();
+        setGeofenceLatitude(messageWaypoint.getLatitude());
+        setGeofenceLongitude(messageWaypoint.getLongitude());
+        geofenceRadius = messageWaypoint.getRadius()!=null? messageWaypoint.getRadius(): 0;
+        lastTransition=0;
+        lastTriggered=0;
 
     }
 
@@ -177,5 +189,15 @@ public class WaypointModel extends BaseObservable {
     @NonNull
     public String toString() {
         return "WaypointModel("+getId()+","+getTst()+","+getDescription()+")";
+    }
+
+    public MessageWaypoint toMessageWaypoint() {
+        MessageWaypoint message = new MessageWaypoint();
+        message.setDescription(getDescription());
+        message.setLatitude(getGeofenceLatitude());
+        message.setLongitude(getGeofenceLongitude());
+        message.setRadius(getGeofenceRadius());
+        message.setTimestamp(getTst());
+        return message;
     }
 }

@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import org.greenrobot.eventbus.EventBus
 import org.owntracks.android.BuildConfig
 import org.owntracks.android.R
 import org.owntracks.android.model.messages.MessageConfiguration
@@ -34,7 +33,6 @@ import javax.inject.Singleton
 @SuppressLint("NonConstantResourceId")
 class Preferences @Inject constructor(
     @ApplicationContext private val applicationContext: Context,
-    private val eventBus: EventBus?,
     private val preferencesStore: PreferencesStore,
     private val appShortcuts: AppShortcuts
 ) {

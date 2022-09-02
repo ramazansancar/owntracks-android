@@ -33,6 +33,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleService;
+import androidx.lifecycle.Observer;
 
 import com.jakewharton.processphoenix.ProcessPhoenix;
 
@@ -236,7 +237,13 @@ public class BackgroundService extends LifecycleService implements SharedPrefere
         endpointStateRepo.getEndpointState().observe(this, state -> updateOngoingNotification());
 
         endpointStateRepo.setServiceStartedNow();
-
+        waypointsRepo.getAllLive().observe(this, allWaypoints -> {
+            removeGeofences();
+            setupGeofences();
+        });
+        waypointsRepo.lastUpdatedWaypoint.observe(this, waypoint -> {
+            locationProcessor.publishWaypointMessage(waypoint);
+        });
         return START_STICKY;
     }
 
@@ -649,30 +656,6 @@ public class BackgroundService extends LifecycleService implements SharedPrefere
 
     private void removeGeofences() {
         geofencingClient.removeGeofences(getGeofencePendingIntent());
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(Events.WaypointAdded e) {
-        locationProcessor.publishWaypointMessage(e.getWaypointModel()); // TODO: move to waypointsRepo
-        if (e.getWaypointModel().hasGeofence()) {
-            removeGeofences();
-            setupGeofences();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(Events.WaypointUpdated e) {
-        locationProcessor.publishWaypointMessage(e.getWaypointModel()); // TODO: move to waypointsRepo
-        removeGeofences();
-        setupGeofences();
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(Events.WaypointRemoved e) {
-        if (e.getWaypointModel().hasGeofence()) {
-            removeGeofences();
-            setupGeofences();
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

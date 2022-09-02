@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.owntracks.android.R;
 import org.owntracks.android.data.EndpointState;
@@ -102,7 +101,6 @@ public class MessageProcessor implements SharedPreferences.OnSharedPreferenceCha
         this.endpointStateRepo = endpointStateRepo;
         this.serviceBridge = serviceBridge;
         this.outgoingQueueIdlingResource = outgoingQueueIdlingResource;
-        this.eventBus.register(this);
         this.runThingsOnOtherThreads = runThingsOnOtherThreads;
 
         outgoingQueue = new BlockingDequeThatAlsoSometimesPersistsThingsToDiskMaybe(10000, applicationContext.getFilesDir(), parser);
