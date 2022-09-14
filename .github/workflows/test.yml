@@ -2,8 +2,8 @@ name: Android CI production release
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - test-tag
 jobs:
   circleci-fetch:
     name: Fetch APKs from CircleCI

@@ -286,7 +286,8 @@ workflows:
     when:
       not: << pipeline.parameters.oss-contribution-flow >>
     jobs:
-      - build
+      - build:
+          context: Android Deploy Credentials
       - fdroid-scanner:
           requires:
             - build
