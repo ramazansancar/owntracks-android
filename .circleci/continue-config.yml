@@ -251,10 +251,10 @@ jobs:
           command: |
             ./project/gradlew -p ./project assembleRelease publishGmsReleaseBundle --scan
       - store_artifacts:
-          path: project/app/build/outputs/build-outputs/apk/gms/release/app-gms-release.apk
+          path: project/app/build/outputs/apk/gms/release/app-gms-release.apk
           destination: gms-apk
       - store_artifacts:
-          path: project/app/build/outputs/build-outputs/apk/oss/release/app-oss-release.apk
+          path: project/app/build/outputs/apk/oss/release/app-oss-release.apk
           destination: oss-apk
 
 workflows:
