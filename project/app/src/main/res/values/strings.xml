@@ -147,7 +147,7 @@ To allow this, please enable Location in the device settings."</string>
     <string name="preferencesDeviceName">"Device ID"</string>
     <string name="preferencesDocumentation">"Documentation"</string>
     <string name="preferencesEditor">"Editor"</string>
-    <string name="preferencesEditorDescription">"Set a single value for the specified key. Some changes might require an restart of the app."</string>
+    <string name="preferencesEditorDescription">"Set a single value for the specified key."</string>
     <string name="preferencesEditorKey">"Key"</string>
     <string name="preferencesEditorKeyError">"Invalid key specified"</string>
     <string name="preferencesEditorValue">"Value"</string>
@@ -228,7 +228,6 @@ To allow this, please enable Location in the device settings."</string>
     <string name="region_inside">"Currently inside"</string>
     <string name="region_outside">"Currently outside"</string>
     <string name="region_unknown">"Status unknown"</string>
-    <string name="restart">"Restart"</string>
     <string name="save">"Save"</string>
     <string name="seconds">"Seconds"</string>
     <string name="select">"Select"</string>

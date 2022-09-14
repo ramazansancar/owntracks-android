@@ -16,7 +16,6 @@ import androidx.databinding.Observable;
 import org.greenrobot.eventbus.EventBus;
 import org.owntracks.android.R;
 import org.owntracks.android.databinding.UiPreferencesLoadBinding;
-import org.owntracks.android.support.Events;
 import org.owntracks.android.ui.base.BaseActivity;
 import org.owntracks.android.ui.base.navigator.Navigator;
 
@@ -188,8 +187,6 @@ public class LoadActivity extends BaseActivity<UiPreferencesLoadBinding, LoadMvv
     public void showFinishDialog() {
         (new AlertDialog.Builder(this)
                 .setTitle("Import successful")
-                .setMessage("It is recommended to restart the app to apply all imported values")
-                .setPositiveButton("Restart", (dialog, which) -> eventBus.post(new Events.RestartApp()))
-                .setNegativeButton("Cancel", (dialog, which) -> finish())).show();
+                .setPositiveButton("Ok", (dialog, which) -> finish())).show();
     }
 }

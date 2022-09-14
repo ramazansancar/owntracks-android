@@ -199,9 +199,8 @@ dependencies {
     // Mapping
     implementation(libs.osmdroid)
 
-    // Utility libraries
+    // Hilt for DI
     implementation(libs.bundles.hilt)
-    implementation(libs.eventbus)
 
     // Connectivity
     implementation(libs.paho.mqttclient)
@@ -209,7 +208,6 @@ dependencies {
 
     implementation(libs.bundles.jackson)
     implementation(libs.square.tape2)
-    implementation(libs.processphoenix)
     implementation(libs.timber)
     implementation(libs.libsodium)
     implementation(libs.apache.httpcore)
@@ -225,7 +223,6 @@ dependencies {
     kapt(libs.bundles.jaxb.annotation.processors)
 
     // Preprocessors
-    kapt(libs.eventbus.annotationprocessor)
     kapt(libs.bundles.kapt.hilt)
 
     kaptTest(libs.bundles.kapt.hilt)

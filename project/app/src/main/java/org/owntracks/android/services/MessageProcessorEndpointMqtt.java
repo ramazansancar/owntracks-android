@@ -30,7 +30,6 @@ import org.owntracks.android.model.messages.MessageBase;
 import org.owntracks.android.model.messages.MessageCard;
 import org.owntracks.android.model.messages.MessageClear;
 import org.owntracks.android.services.worker.Scheduler;
-import org.owntracks.android.support.Events;
 import org.owntracks.android.support.Parser;
 import org.owntracks.android.support.Preferences;
 import org.owntracks.android.support.RunThingsOnOtherThreads;

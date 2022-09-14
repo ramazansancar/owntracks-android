@@ -18,7 +18,6 @@ import org.greenrobot.eventbus.EventBus
 import org.owntracks.android.BuildConfig
 import org.owntracks.android.R
 import org.owntracks.android.databinding.UiPreferencesEditorBinding
-import org.owntracks.android.support.Events.RestartApp
 import org.owntracks.android.ui.base.BaseActivity
 import org.owntracks.android.ui.preferences.load.LoadActivity
 import timber.log.Timber
@@ -61,10 +60,6 @@ class EditorActivity :
             R.id.importConfigurationSingleValue -> {
                 showEditorView()
                 return true
-            }
-            R.id.restart -> {
-                eventBus.post(RestartApp())
-                return false
             }
             else -> return false
         }

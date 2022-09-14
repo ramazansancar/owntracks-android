@@ -19,7 +19,6 @@ import org.owntracks.android.model.messages.MessageCmd;
 import org.owntracks.android.model.messages.MessageLocation;
 import org.owntracks.android.model.messages.MessageTransition;
 import org.owntracks.android.services.worker.Scheduler;
-import org.owntracks.android.support.Events;
 import org.owntracks.android.support.Parser;
 import org.owntracks.android.support.Preferences;
 import org.owntracks.android.support.RunThingsOnOtherThreads;
@@ -446,16 +445,6 @@ public class MessageProcessor implements SharedPreferences.OnSharedPreferenceCha
                     if (message.getWaypoints() != null) {
                         waypointsRepo.importFromMessage(message.getWaypoints().getWaypoints());
                     }
-                    break;
-                case RECONNECT:
-                    if (message.getModeId() != MessageProcessorEndpointHttp.MODE_ID) {
-                        Timber.e("command not supported in HTTP mode: %s", message.getAction());
-                        break;
-                    }
-                    reconnect();
-                    break;
-                case RESTART:
-                    eventBus.post(new Events.RestartApp());
                     break;
                 default:
                     break;
