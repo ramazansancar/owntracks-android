@@ -1,0 +1,15 @@
+name: Android CI production release
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  circleci-fetch:
+    name: Fetch APKs from CircleCI
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -u $CIRCLE_CI_AUTH: https://circleci.com/api/v2/project/gh/owntracks/android/pipeline| jq '.items[] | select(.vcs.revision =="${GITHUB_SHA}") |.id'
+        env:
+          CIRCLE_CI_AUTH: "${{ secrets.CIRCLE_CI_API_AUTH_KEY}}"
