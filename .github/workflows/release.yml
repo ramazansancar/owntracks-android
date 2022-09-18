@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Fetch APK from CircleCI
-        run: sh .github/workflows/fetch-apks.sh
+        run: PARPFACE=parpter .github/workflows/fetch-apks.sh
         env:
           CIRCLE_CI_TOKEN: "${{ secrets.CIRCLE_CI_TOKEN }}"
           HEAD_SHA: "${{ env.GITHUB_SHA }}"
