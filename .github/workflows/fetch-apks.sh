@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "TEST: $PARPFACE"
+echo "github sha: $GITHUB_SHA"
 echo "Commit Sha: $HEAD_SHA"
 PIPELINE_OUTPUT=$(curl -s -u ${CIRCLE_CI_TOKEN}: https://circleci.com/api/v2/project/gh/owntracks/android/pipeline)
 echo "Found $(echo $PIPELINE_OUTPUT | jq '.items | length') pipelines"
