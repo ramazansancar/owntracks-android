@@ -16,7 +16,7 @@ jobs:
       - name: ffs
         run: echo $GITHUB_SHA
       - name: Fetch APK from CircleCI
-        run: PARPFACE=parpter HEAD_SHA=$HEAD_SHA .github/workflows/fetch-apks.sh
+        run: PARPFACE=parpter HEAD_SHA=$GITHUB_SHA .github/workflows/fetch-apks.sh
         env:
           CIRCLE_CI_TOKEN: "${{ secrets.CIRCLE_CI_TOKEN }}"
           HEAD_SHA: "${{ env.GITHUB_SHA }}"
